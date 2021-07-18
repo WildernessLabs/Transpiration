@@ -52,12 +52,12 @@ namespace Transpiration
             else if(state == ClockState.StopWatch)
             {
                 UpdateStopWatch(gl);
-                Thread.Sleep(0);
+                Thread.Sleep(10);
             }
             else
             {
                 UpdateIntervalTimer(gl);
-                Thread.Sleep(0);
+                Thread.Sleep(10);
             }
 
             gl.Show();

@@ -32,7 +32,7 @@ namespace Transpiration
         DateTime stopWatchStart = DateTime.MinValue;
         DateTime intervalStart = DateTime.MinValue;
 
-        List<long> splits = new List<long>();
+        List<long> splits = new();
         long stopwatchOffset;
         long lastSplit;
 

@@ -93,6 +93,7 @@ namespace Transpiration
             next = new PushButton(Device, Device.Pins.D03, ResistorMode.InternalPullUp);
             back = new PushButton(Device, Device.Pins.D02, ResistorMode.InternalPullUp);
             select = new PushButton(Device, Device.Pins.D04, ResistorMode.InternalPullUp);
+            select.LongClickedThreshold = new TimeSpan(0, 0, 1);
 
             next.Clicked += Next_Clicked;
             back.Clicked += Back_Clicked;
@@ -107,6 +108,7 @@ namespace Transpiration
 
         private void Select_LongClicked(object sender, EventArgs e)
         {
+            Console.WriteLine("Long pressed");
             clock.Left();
         }
 
