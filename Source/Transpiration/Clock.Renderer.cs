@@ -6,12 +6,13 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Transpiration
 {
     public partial class Clock
     {
-        FontBase fontClock;
+        private FontBase fontClock;
 
         Menu menu;
 
@@ -33,6 +34,30 @@ namespace Transpiration
             InitMenu(gl);
 
             return; 
+        }
+
+        public void Show(GraphicsLibrary gl)
+        {
+            Task.Run(() =>
+            {
+                while (menu.IsEnabled == false)
+                {
+                    Update(gl);
+                }
+            });
+        }
+
+        public void ToggleMenu(GraphicsLibrary gl)
+        {
+            if (menu.IsEnabled == false)
+            {
+                menu.Enable();
+            }
+            else if (menu.IsEnabled)
+            {
+                menu.Back();
+                Show(gl);
+            }
         }
 
         public void Update(GraphicsLibrary gl)

@@ -17,10 +17,12 @@
     <PackageReference Include="Meadow.Foundation.Displays.TftSpi" Version="0.7.45" />
     <PackageReference Include="Meadow.Foundation.Displays.TextDisplayMenu" Version="0.1.38" />
     <PackageReference Include="SimpleJsonSerializer" Version="0.0.2" />
+    <PackageReference Include="Meadow.Foundation.Web.Maple.Server" Version="0.2.0" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Meadow.Foundation.Displays.TftSpi" />
     <None Remove="Meadow.Foundation.Displays.TextDisplayMenu" />
     <None Remove="SimpleJsonSerializer" />
+    <None Remove="Meadow.Foundation.Web.Maple.Server" />
   </ItemGroup>
 </Project>

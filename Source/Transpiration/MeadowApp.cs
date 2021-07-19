@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Meadow;
 using Meadow.Devices;
@@ -38,16 +37,9 @@ namespace Transpiration
             //Init clock
             clock = new Clock();
             clock.Init(gl, tempSensor);
+            clock.Show(gl);
 
             _ = UpdateClock();
-
-            Task.Run(() =>
-            {
-                while(true)
-                {
-                    clock.Update(gl);
-                }
-            });
         }
 
         async Task UpdateClock()
@@ -109,24 +101,24 @@ namespace Transpiration
         private void Select_LongClicked(object sender, EventArgs e)
         {
             Console.WriteLine("Long pressed");
-            clock.Left();
+            clock.ToggleMenu(gl);
         }
 
         private void Select_Clicked(object sender, EventArgs e)
         {
-            clock.Right();
+            clock.Select();
         }
 
         private void Back_Clicked(object sender, EventArgs e)
         {
             Console.WriteLine("Back pressed");
-            clock.Up();
+            clock.Back();
         }
 
         private void Next_Clicked(object sender, EventArgs e)
         {
             Console.WriteLine("Next pressed");
-            clock.Down();
+            clock.Next();
         }
     }
 }

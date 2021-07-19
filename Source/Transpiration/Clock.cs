@@ -39,7 +39,7 @@ namespace Transpiration
         int interval1 = 180;
         int interval2 = 60;
 
-        public void Up()
+        public void Back()
         {
             if (menu.IsEnabled)
             {
@@ -77,7 +77,7 @@ namespace Transpiration
             }
         }
 
-        public void Down()
+        public void Next()
         {
             if (menu.IsEnabled)
             {
@@ -115,24 +115,12 @@ namespace Transpiration
             }
         }
 
-        public void Left()
-        {
-            if(menu.IsEnabled == false)
-            {
-                menu.Enable();
-            }
-            else if(menu.IsEnabled)
-            {
-                menu.Back();
-            }
-        }
-
         public void Reset()
         {
          
         }
 
-        public void Right()
+        public void Select()
         {
             if (menu.IsEnabled)
             {
