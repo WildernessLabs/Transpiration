@@ -1,4 +1,5 @@
 ﻿using Meadow.Foundation;
+using Meadow.Foundation.Audio;
 using Meadow.Foundation.Displays.TextDisplayMenu;
 using Meadow.Foundation.Graphics;
 using Meadow.Peripherals.Sensors;
@@ -13,6 +14,7 @@ namespace Transpiration
     public partial class Clock
     {
         private FontBase fontClock;
+        PiezoSpeaker buzzer;
 
         Menu menu;
 
@@ -23,9 +25,10 @@ namespace Transpiration
 
         ITemperatureSensor temperatureSensor;
 
-        public void Init(GraphicsLibrary gl, ITemperatureSensor tempSensor)
+        public void Init(GraphicsLibrary gl, PiezoSpeaker buzzer, ITemperatureSensor temperatureSensor)
         {
-            temperatureSensor = tempSensor;
+            this.buzzer = buzzer;
+            this.temperatureSensor = temperatureSensor;
 
             fontClock = new Font12x20();
 
@@ -178,8 +181,6 @@ namespace Transpiration
             return $"{m:00}:{s:00}.{ms:0}";
         }
 
-        
-
         int GetInterval(long seconds)
         {
             return (int)(seconds / (interval1 + interval2) + 1);
@@ -278,6 +279,27 @@ namespace Transpiration
                     }
                     break;
             }
+        }
+
+        public async Task AlarmBeep()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                await PlayTone(2000, 75).ConfigureAwait(false);
+                await Task.Delay(25);
+            }
+        }
+
+        public Task Beep()
+        {
+            return PlayTone(2000, 75);
+        }
+
+        public async Task PlayTone(int frequency, int duration)
+        {
+            buzzer.PlayTone(frequency);
+            await Task.Delay(duration);
+            buzzer.StopTone();
         }
     }
 }

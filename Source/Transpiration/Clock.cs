@@ -41,6 +41,8 @@ namespace Transpiration
 
         public void Back()
         {
+            Beep();
+
             if (menu.IsEnabled)
             {
                 menu.Previous();
@@ -79,6 +81,8 @@ namespace Transpiration
 
         public void Next()
         {
+            Beep();
+
             if (menu.IsEnabled)
             {
                 menu.Next();
@@ -122,6 +126,8 @@ namespace Transpiration
 
         public void Select()
         {
+            Beep();
+
             if (menu.IsEnabled)
             {
                 menu.Select();

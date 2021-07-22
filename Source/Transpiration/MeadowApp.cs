@@ -36,7 +36,7 @@ namespace Transpiration
 
             //Init clock
             clock = new Clock();
-            clock.Init(gl, tempSensor);
+            clock.Init(gl, buzzer, tempSensor);
             clock.Show(gl);
 
             _ = UpdateClock();
@@ -95,7 +95,7 @@ namespace Transpiration
 
             Console.WriteLine("Initialize piezo");
 
-            buzzer = new PiezoSpeaker(Device, Device.Pins.D02);
+            buzzer = new PiezoSpeaker(Device, Device.Pins.D13);
         }
 
         private void Select_LongClicked(object sender, EventArgs e)
@@ -111,13 +111,11 @@ namespace Transpiration
 
         private void Back_Clicked(object sender, EventArgs e)
         {
-            Console.WriteLine("Back pressed");
             clock.Back();
         }
 
         private void Next_Clicked(object sender, EventArgs e)
         {
-            Console.WriteLine("Next pressed");
             clock.Next();
         }
     }
