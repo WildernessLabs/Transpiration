@@ -12,17 +12,37 @@
     <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.Foundation" Version="0.*" />
-    <PackageReference Include="Meadow.F7" Version="0.24.7.1" />
-    <PackageReference Include="Meadow.Foundation.Displays.TftSpi" Version="0.7.45" />
-    <PackageReference Include="Meadow.Foundation.Displays.TextDisplayMenu" Version="0.1.38" />
+    <PackageReference Include="Meadow.Foundation" Version="0.29.0" />
+    <PackageReference Include="Meadow.F7" Version="0.27.1" />
+    <PackageReference Include="Meadow.Foundation.Displays.TftSpi" Version="0.7.47" />
+    <PackageReference Include="Meadow.Foundation.Displays.TextDisplayMenu" Version="0.1.40" />
     <PackageReference Include="SimpleJsonSerializer" Version="0.0.2" />
-    <PackageReference Include="Meadow.Foundation.Web.Maple.Server" Version="0.2.0" />
+    <PackageReference Include="Meadow.Foundation.Web.Maple.Server" Version="0.3.0" />
+    <PackageReference Include="SimpleJpegDecoder" Version="0.4.0" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Meadow.Foundation.Displays.TftSpi" />
     <None Remove="Meadow.Foundation.Displays.TextDisplayMenu" />
     <None Remove="SimpleJsonSerializer" />
     <None Remove="Meadow.Foundation.Web.Maple.Server" />
+    <None Remove="meadow-logo.jpg" />
+    <None Remove="SimpleJpegDecoder" />
+    <None Remove="WildernessLabs.Meadow.Assemblies" />
+    <None Remove="Logic\" />
+    <None Remove="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="meadow-logo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="meadow-logo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Logic\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 </Project>

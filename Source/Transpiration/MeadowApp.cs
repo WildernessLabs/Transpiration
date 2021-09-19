@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using Meadow;
 using Meadow.Devices;
@@ -10,19 +12,21 @@ using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Foundation.Sensors.Temperature;
 using Meadow.Hardware;
 using Meadow.Peripherals.Sensors;
+using SimpleJpegDecoder;
 using static Meadow.Foundation.Displays.DisplayBase;
 
 namespace Transpiration
 {
     public class MeadowApp : App<F7Micro, MeadowApp>
     {
+        St7789 display;
         GraphicsLibrary gl;
         PushButton next, back, select, menu;
         PiezoSpeaker buzzer;
 
         ITemperatureSensor tempSensor;
 
-        Clock clock;
+        Transpiration transpiration;
 
         public MeadowApp()
         {
@@ -34,10 +38,12 @@ namespace Transpiration
             gl.DrawText(0, 0, "Initializing ...", color: Color.White);
             gl.Show();
 
+            DrawSplashScreen();
+
             //Init clock
-            clock = new Clock();
-            clock.Init(gl, buzzer, tempSensor);
-            clock.Show(gl);
+            transpiration = new Transpiration();
+            transpiration.Init(gl, buzzer, tempSensor);
+            transpiration.Show(gl);
 
             _ = UpdateClock();
         }
@@ -55,6 +61,9 @@ namespace Transpiration
 
         void Initialize()
         {
+            //set a reasonable default date
+            MeadowApp.Device.SetClock(new DateTime(2021, 11, 1));
+
             Console.WriteLine("Initialize hardware...");
 
             var config = new SpiClockConfiguration(48000, SpiClockConfiguration.Mode.Mode3);
@@ -62,7 +71,7 @@ namespace Transpiration
 
             Console.WriteLine("Initalize display driver");
 
-            var display = new St7789(device: Device, spiBus: spiBus,
+            display = new St7789(device: Device, spiBus: spiBus,
                 chipSelectPin: null,
                 dcPin: Device.Pins.D01,
                 resetPin: Device.Pins.D00,
@@ -101,22 +110,83 @@ namespace Transpiration
         private void Select_LongClicked(object sender, EventArgs e)
         {
             Console.WriteLine("Long pressed");
-            clock.ToggleMenu(gl);
+            transpiration.ToggleMenu(gl);
         }
 
         private void Select_Clicked(object sender, EventArgs e)
         {
-            clock.Select();
+            transpiration.Select();
         }
 
         private void Back_Clicked(object sender, EventArgs e)
         {
-            clock.Back();
+            transpiration.Back();
         }
 
         private void Next_Clicked(object sender, EventArgs e)
         {
-            clock.Next();
+            transpiration.Next();
+        }
+
+        void DrawSplashScreen()
+        {
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
+            var jpgData = LoadResource("meadow-logo.jpg");
+
+            Console.WriteLine($"Loaded {jpgData.Length} bytes, decoding jpeg ...");
+
+            var decoder = new JpegDecoder();
+            var jpg = decoder.DecodeJpeg(jpgData);
+
+            Console.WriteLine($"Jpeg decoded is {jpg.Length} bytes");
+            Console.WriteLine($"Width {decoder.Width}");
+            Console.WriteLine($"Height {decoder.Height}");
+
+            gl.Clear();
+            gl.DrawRectangle(0, 0, 240, 240, Color.White, true);
+
+            int x = 0;
+            int y = (240 - decoder.Height) / 2;
+            byte r, g, b;
+
+            for (int i = 0; i < jpg.Length; i += 3)
+            {
+                r = jpg[i];
+                g = jpg[i + 1];
+                b = jpg[i + 2];
+
+                display.DrawPixel(x, y, r, g, b);
+
+                x++;
+
+                if (x % decoder.Width == 0)
+                {
+                    y++;
+                    x = 0;
+                }
+            }
+            sw.Stop();
+
+            Console.WriteLine($"Jpeg show: {sw.Elapsed}");
+
+            display.Show();
+        }
+
+        byte[] LoadResource(string filename)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = $"Transpiration.{filename}";
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            {
+                using (var ms = new MemoryStream())
+                {
+                    stream.CopyTo(ms);
+                    return ms.ToArray();
+                }
+            }
         }
     }
 }
