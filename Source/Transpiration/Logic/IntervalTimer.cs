@@ -13,8 +13,8 @@ namespace Transpiration
 
         DateTime intervalStart = DateTime.MinValue;
 
-        public int Interval1 { get; set; } = 180;
-        public int Interval2 { get; set; } = 60;
+        public int Interval1 { get; set; } = 180; //seconds
+        public int Interval2 { get; set; } = 60; //seconds
 
         public void Back()
         {

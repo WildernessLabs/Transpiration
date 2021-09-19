@@ -13,6 +13,7 @@ using Meadow.Foundation.Sensors.Temperature;
 using Meadow.Hardware;
 using Meadow.Peripherals.Sensors;
 using SimpleJpegDecoder;
+using Transpiration.Services;
 using static Meadow.Foundation.Displays.DisplayBase;
 
 namespace Transpiration
@@ -26,6 +27,8 @@ namespace Transpiration
 
         ITemperatureSensor tempSensor;
 
+        BLEService bleService;
+
         Transpiration transpiration;
 
         public MeadowApp()
@@ -38,14 +41,35 @@ namespace Transpiration
             gl.DrawText(0, 0, "Initializing ...", color: Color.White);
             gl.Show();
 
-            DrawSplashScreen();
+            //DrawSplashScreen();
 
             //Init clock
             transpiration = new Transpiration();
             transpiration.Init(gl, buzzer, tempSensor);
             transpiration.Show(gl);
 
+            //update intervals to test
+            transpiration.WorkoutInterval = 240;
+            transpiration.RestInterval = 30;
+
             _ = UpdateClock();
+
+            bleService = new BLEService();
+            bleService.Initialize(Device);
+
+            //event coordination between the BLE service and the transpiration logic
+            bleService.RestIntervalChanged += (c, o) =>
+            {
+                Console.WriteLine($"Rest interval changed {(Int32)o}");
+                transpiration.RestInterval = (Int32)o;
+            };
+
+
+            bleService.WorkoutIntervalChanged += (c, o) =>
+            {
+                Console.WriteLine($"Rest interval changed {(Int32)o}");
+                transpiration.WorkoutInterval = (Int32)o;
+            };
         }
 
         async Task UpdateClock()

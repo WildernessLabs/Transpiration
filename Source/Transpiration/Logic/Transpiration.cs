@@ -36,9 +36,21 @@ namespace Transpiration
 
         private FontBase fontClock;
 
+        public int WorkoutInterval
+        {
+            get => intervalTimer.Interval1;
+            set => intervalTimer.Interval1 = value;
+        }
+
+        public int RestInterval
+        {
+            get => intervalTimer.Interval2;
+            set => intervalTimer.Interval2 = value;
+        }
+
         public Transpiration()
         {
-  
+
         }
 
         public void Init(GraphicsLibrary gl, PiezoSpeaker buzzer, ITemperatureSensor temperatureSensor)
