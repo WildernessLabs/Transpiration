@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Meadow;
 
 namespace Transpiration
@@ -8,6 +9,8 @@ namespace Transpiration
         static IApp app;
         public static void Main(string[] args)
         {
+            Console.WriteLine("Main");
+
             // instantiate and run new meadow app
             app = new MeadowApp();
 

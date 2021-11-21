@@ -8,13 +8,13 @@ using Meadow.Foundation;
 using Meadow.Foundation.Audio;
 using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
+using Meadow.Foundation.Graphics.Buffers;
 using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Foundation.Sensors.Temperature;
 using Meadow.Hardware;
 using Meadow.Peripherals.Sensors;
 using SimpleJpegDecoder;
 using Transpiration.Services;
-using static Meadow.Foundation.Displays.DisplayBase;
 
 namespace Transpiration
 {
@@ -41,7 +41,7 @@ namespace Transpiration
             gl.DrawText(0, 0, "Initializing ...", color: Color.White);
             gl.Show();
 
-            //DrawSplashScreen();
+            DrawSplashScreen();
 
             //Init clock
             transpiration = new Transpiration();
@@ -52,7 +52,7 @@ namespace Transpiration
             transpiration.WorkoutInterval = 240;
             transpiration.RestInterval = 30;
 
-            _ = UpdateClock();
+          //  _ = UpdateClock();
 
             bleService = new BLEService();
             bleService.Initialize(Device);
@@ -64,18 +64,21 @@ namespace Transpiration
                 transpiration.RestInterval = (Int32)o;
             };
 
-
             bleService.WorkoutIntervalChanged += (c, o) =>
             {
                 Console.WriteLine($"Rest interval changed {(Int32)o}");
                 transpiration.WorkoutInterval = (Int32)o;
             };
+
+            bleService.ModeChanged += (c, o) =>
+            {
+                Console.WriteLine($"Mode changed {(Int32)o}");
+                transpiration.SetMode((Transpiration.TranspirationState)o);
+            };
         }
 
         async Task UpdateClock()
         {
-            await Device.InitWiFiAdapter();
-
             var result = await Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
 
             var today = await ClockService.GetTime();
@@ -99,7 +102,7 @@ namespace Transpiration
                 chipSelectPin: null,
                 dcPin: Device.Pins.D01,
                 resetPin: Device.Pins.D00,
-                width: 240, height: 240, displayColorMode: DisplayColorMode.Format12bppRgb444);
+                width: 240, height: 240, ColorType.Format16bppRgb565);
 
             display.IgnoreOutOfBoundsPixels = true;
 
@@ -157,22 +160,88 @@ namespace Transpiration
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();
 
+            display.Fill(Color.LawnGreen, false);
+            gl.Show();
+
+            sw.Stop();
+            Console.WriteLine($"Fill: {sw.Elapsed}");
+
+            gl.DrawRectangle(0, 0, 240, 240, Color.DarkViolet, true);
+            gl.Show();
+
+            sw.Stop();
+            Console.WriteLine($"DrawRectangle: {sw.Elapsed}");
+
+            sw.Restart();
+
+            display.Clear(Color.YellowGreen);
+            gl.Show();
+
+            sw.Stop();
+            Console.WriteLine($"Clear with color: {sw.Elapsed}");
+
+            sw.Restart();
+
+            for (int i = 0; i < 240; i++)
+            {
+                for (int j = 0; j < 240; j++)
+                {
+                    gl.DrawPixel(i, j, Color.LawnGreen);
+                }
+            }
+
+            gl.Show();
+
+            sw.Stop();
+
+            Console.WriteLine($"GL Fill via DrawPixel: {sw.Elapsed}");
+
+            sw.Restart();
+
+            ushort col = Color.MediumTurquoise.Color16bppRgb565;
+
+            for (int i = 0; i < 240; i++)
+            {
+                for (int j = 0; j < 240; j++)
+                {
+                    display.DrawPixel(i, j, col);
+                }
+            }
+
+            gl.Show();
+
+            sw.Stop();
+
+            Console.WriteLine($"565 Fill via DrawPixel: {sw.Elapsed}");
+
+            sw.Restart();
+
             var jpgData = LoadResource("meadow-logo.jpg");
 
             Console.WriteLine($"Loaded {jpgData.Length} bytes, decoding jpeg ...");
 
             var decoder = new JpegDecoder();
             var jpg = decoder.DecodeJpeg(jpgData);
-
+           
             Console.WriteLine($"Jpeg decoded is {jpg.Length} bytes");
             Console.WriteLine($"Width {decoder.Width}");
             Console.WriteLine($"Height {decoder.Height}");
 
+            var jpgImage = new BufferRgb888(decoder.Width, decoder.Height, jpg);
+
             gl.Clear();
-            gl.DrawRectangle(0, 0, 240, 240, Color.White, true);
 
             int x = 0;
             int y = (240 - decoder.Height) / 2;
+
+            //we can optimize this by not drawing uneeded pixels 
+            gl.DrawRectangle(0, 0, 240, y, Color.White, true);
+            gl.DrawRectangle(0, y + decoder.Height, 240, 240 - y - decoder.Height, Color.White, true);
+
+            display.DrawBuffer(x, y, jpgImage);
+
+            /*
+
             byte r, g, b;
 
             for (int i = 0; i < jpg.Length; i += 3)
@@ -190,7 +259,7 @@ namespace Transpiration
                     y++;
                     x = 0;
                 }
-            }
+            } */
             sw.Stop();
 
             Console.WriteLine($"Jpeg show: {sw.Elapsed}");

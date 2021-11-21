@@ -19,6 +19,8 @@ namespace Transpiration.Services
 
         public event CharacteristicValueSetHandler WorkoutIntervalChanged;
         public event CharacteristicValueSetHandler RestIntervalChanged;
+        public event CharacteristicValueSetHandler IsRunningChanged;
+        public event CharacteristicValueSetHandler ModeChanged;
 
         public void SetWorkoutInterval(int interval)
         {
@@ -32,9 +34,6 @@ namespace Transpiration.Services
 
         public void Initialize(F7Micro device)
         {
-            // initializing the coprocessor for BLE
-            device.InitCoprocessor();
-
             // initialize the bluetooth defnition tree
             Console.WriteLine("Starting the BLE server");
             bleDefinition = GetDefinition();
@@ -69,6 +68,8 @@ namespace Transpiration.Services
 
             workoutIntervalCharacteristic.ValueSet += (c, d) => WorkoutIntervalChanged?.Invoke(c, d);
             restIntervalCharacteristic.ValueSet += (c, d) => RestIntervalChanged?.Invoke(c, d);
+            isRunningCharacteristic.ValueSet += (c, d) => IsRunningChanged?.Invoke(c, d);
+            transpirationModeCharacteristic.ValueSet += (c, d) => ModeChanged?.Invoke(c, d);
 
             ICharacteristic[] characteristics = {
                     workoutIntervalCharacteristic,

@@ -84,6 +84,23 @@ namespace Transpiration
             Console.WriteLine("Menu initialized");
         }
 
+        public void SetMode(TranspirationState mode)
+        {
+            switch(mode)
+            {
+                case TranspirationState.Clock:
+                    break;
+                case TranspirationState.StopWatch:
+                    break;
+                case TranspirationState.IntervalTimer:
+                    break;
+                default:
+                    return; //fail silently
+            }
+
+            state = mode;
+        }
+
         private void Menu_ValueChanged(object sender, ValueChangedEventArgs e)
         {
             switch (e.ItemID)
