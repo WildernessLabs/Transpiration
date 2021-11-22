@@ -45,7 +45,7 @@ namespace Transpiration
             transpiration.WorkoutInterval = 240;
             transpiration.RestInterval = 30;
 
-            //  _ = UpdateClock();
+              _ = UpdateClock();
 
             bleService = new BLEService();
             bleService.Initialize(Device);
@@ -68,6 +68,15 @@ namespace Transpiration
                 Console.WriteLine($"Mode changed {(Int32)o}");
                 transpiration.SetMode((Transpiration.TranspirationState)o);
             };
+        }
+
+        async Task UpdateClock()
+        {
+            var result = await Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
+
+            var today = await ClockService.GetTime();
+
+            Device.SetClock(today.Subtract(new TimeSpan(7, 0, 0)));
         }
 
         void Initialize()

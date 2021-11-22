@@ -52,7 +52,7 @@ namespace Transpiration
             transpiration.WorkoutInterval = 240;
             transpiration.RestInterval = 30;
 
-          //  _ = UpdateClock();
+            _ = UpdateClock();
 
             bleService = new BLEService();
             bleService.Initialize(Device);
