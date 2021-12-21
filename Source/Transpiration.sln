@@ -1,39 +1,44 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.810.6
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transpiration.HackKit", "Transpiration\Transpiration.HackKit.csproj", "{E866223E-67F7-4BA5-8910-2CE7C991DD9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transpiration.HackKit", "Transpiration\Transpiration.HackKit.csproj", "{E866223E-67F7-4BA5-8910-2CE7C991DD9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meadow.Foundation.Web.Maple.Server", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Web.Maple\Driver\Web.Maple.Server\Meadow.Foundation.Web.Maple.Server.csproj", "{FA948FE5-4F5B-49FB-9C25-0017CE3737E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Foundation.Web.Maple.Server", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Web.Maple\Driver\Web.Maple.Server\Meadow.Foundation.Web.Maple.Server.csproj", "{FA948FE5-4F5B-49FB-9C25-0017CE3737E8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projects", "Projects", "{45357E67-3BAB-4D85-8CC7-04E3EB81F503}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meadow.Foundation.Core", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Core\Meadow.Foundation.Core.csproj", "{7281D7D2-DF5B-46C7-939E-A1B012684B31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Foundation.Core", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Core\Meadow.Foundation.Core.csproj", "{7281D7D2-DF5B-46C7-939E-A1B012684B31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroGraphics", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Graphics\MicroGraphics\Driver\Graphics.MicroGraphics\MicroGraphics.csproj", "{47E97916-D8DD-4EE6-A824-87F774C17171}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroGraphics", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Graphics\MicroGraphics\Driver\Graphics.MicroGraphics\MicroGraphics.csproj", "{47E97916-D8DD-4EE6-A824-87F774C17171}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextDisplayMenu", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Graphics\TextDisplayMenu\Driver\Graphics.TextDisplayMenu\TextDisplayMenu.csproj", "{A1B5462E-7AAB-4923-9F2C-BECE06C5ED35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextDisplayMenu", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Graphics\TextDisplayMenu\Driver\Graphics.TextDisplayMenu\TextDisplayMenu.csproj", "{A1B5462E-7AAB-4923-9F2C-BECE06C5ED35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Displays.TftSpi", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Displays.TftSpi\Driver\Displays.TftSpi\Displays.TftSpi.csproj", "{165FAD99-3E6E-494B-A338-2FA77FB21304}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Displays.TftSpi", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Displays.TftSpi\Driver\Displays.TftSpi\Displays.TftSpi.csproj", "{165FAD99-3E6E-494B-A338-2FA77FB21304}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meadow.Core", "..\..\Meadow.Core\source\Meadow.Core\Meadow.Core.csproj", "{044DBE2D-A0DD-4D56-B2F0-9BAECBEC062F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Core", "..\..\Meadow.Core\source\Meadow.Core\Meadow.Core.csproj", "{044DBE2D-A0DD-4D56-B2F0-9BAECBEC062F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meadow.Contracts", "..\..\Meadow.Core\source\Meadow.Contracts\Meadow.Contracts.csproj", "{CF7FE2E9-B981-4C56-83D8-E83CBD262E2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Contracts", "..\..\Meadow.Core\source\Meadow.Contracts\Meadow.Contracts.csproj", "{CF7FE2E9-B981-4C56-83D8-E83CBD262E2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meadow.Units", "..\..\Meadow.Core\source\Meadow.Units\Meadow.Units.csproj", "{81AF0EBB-FED3-464F-9539-A14898B3C47D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Units", "..\..\Meadow.Core\source\Meadow.Units\Meadow.Units.csproj", "{81AF0EBB-FED3-464F-9539-A14898B3C47D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meadow.F7", "..\..\Meadow.Core\source\Meadow.F7\Meadow.F7.csproj", "{3BA63C25-FE9C-4F73-8D8B-4DADCD20BA1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.F7", "..\..\Meadow.Core\source\Meadow.F7\Meadow.F7.csproj", "{3BA63C25-FE9C-4F73-8D8B-4DADCD20BA1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transpiration.Pro", "Transpiration.Pro\Transpiration.Pro.csproj", "{2CDBF8D7-6F8C-445F-808D-1B0CBF4399D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transpiration.Pro", "Transpiration.Pro\Transpiration.Pro.csproj", "{2CDBF8D7-6F8C-445F-808D-1B0CBF4399D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Displays.Max7219", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Displays.Max7219\Driver\Displays.Max7219\Displays.Max7219.csproj", "{252B7F08-A22E-4ACB-B22A-6A23F103D1A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Displays.Max7219", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Displays.Max7219\Driver\Displays.Max7219\Displays.Max7219.csproj", "{252B7F08-A22E-4ACB-B22A-6A23F103D1A8}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Transpiration.Core", "Transpiration.Core\Transpiration.Core.shproj", "{9481F917-569C-4EB9-92F9-D6F5263615ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sensors.Temperature.Tmp102", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Temperature.Tmp102\Driver\Sensors.Temperature.Tmp102\Sensors.Temperature.Tmp102.csproj", "{9052BB26-D3E5-402C-AB55-B9E91006DBAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensors.Temperature.Tmp102", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Temperature.Tmp102\Driver\Sensors.Temperature.Tmp102\Sensors.Temperature.Tmp102.csproj", "{9052BB26-D3E5-402C-AB55-B9E91006DBAF}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Transpiration.Core\Transpiration.Core.projitems*{2cdbf8d7-6f8c-445f-808d-1b0cbf4399d0}*SharedItemsImports = 5
+		Transpiration.Core\Transpiration.Core.projitems*{9481f917-569c-4eb9-92f9-d6f5263615ed}*SharedItemsImports = 13
+		Transpiration.Core\Transpiration.Core.projitems*{e866223e-67f7-4ba5-8910-2ce7c991dd9e}*SharedItemsImports = 5
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -95,9 +100,6 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {43D40815-4A90-400F-BAAD-68CA38048608}
-	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FA948FE5-4F5B-49FB-9C25-0017CE3737E8} = {45357E67-3BAB-4D85-8CC7-04E3EB81F503}
 		{7281D7D2-DF5B-46C7-939E-A1B012684B31} = {45357E67-3BAB-4D85-8CC7-04E3EB81F503}
@@ -110,5 +112,8 @@ Global
 		{3BA63C25-FE9C-4F73-8D8B-4DADCD20BA1E} = {45357E67-3BAB-4D85-8CC7-04E3EB81F503}
 		{252B7F08-A22E-4ACB-B22A-6A23F103D1A8} = {45357E67-3BAB-4D85-8CC7-04E3EB81F503}
 		{9052BB26-D3E5-402C-AB55-B9E91006DBAF} = {45357E67-3BAB-4D85-8CC7-04E3EB81F503}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {43D40815-4A90-400F-BAAD-68CA38048608}
 	EndGlobalSection
 EndGlobal

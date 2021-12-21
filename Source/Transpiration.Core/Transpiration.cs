@@ -34,7 +34,7 @@ namespace Transpiration
 
         ITemperatureSensor temperatureSensor;
 
-        private FontBase fontClock;
+        private IFont fontClock;
 
         public int WorkoutInterval
         {
@@ -53,7 +53,7 @@ namespace Transpiration
 
         }
 
-        public void Init(GraphicsLibrary gl, PiezoSpeaker buzzer, ITemperatureSensor temperatureSensor)
+        public void Init(MicroGraphics gl, PiezoSpeaker buzzer, ITemperatureSensor temperatureSensor)
         {
             this.buzzer = buzzer;
             this.temperatureSensor = temperatureSensor;
@@ -61,7 +61,7 @@ namespace Transpiration
             InitMenu(gl);
         }
 
-        void InitMenu(GraphicsLibrary gl)
+        void InitMenu(MicroGraphics gl)
         {
             Console.WriteLine("InitMenu");
 
@@ -128,7 +128,7 @@ namespace Transpiration
             }
         }
 
-        public void Show(GraphicsLibrary gl)
+        public void Show(MicroGraphics gl)
         {
             Task.Run(() =>
             {
@@ -139,7 +139,7 @@ namespace Transpiration
             });
         }
 
-        public void ToggleMenu(GraphicsLibrary gl)
+        public void ToggleMenu(MicroGraphics gl)
         {
             if (menu.IsEnabled == false)
             {
@@ -152,7 +152,7 @@ namespace Transpiration
             }
         }
 
-        public void Update(GraphicsLibrary gl)
+        public void Update(MicroGraphics gl)
         {
             if (menu != null && menu.IsEnabled)
             {

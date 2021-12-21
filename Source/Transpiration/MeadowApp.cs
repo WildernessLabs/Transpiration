@@ -21,7 +21,7 @@ namespace Transpiration
     public class MeadowApp : App<F7Micro, MeadowApp>
     {
         St7789 display;
-        GraphicsLibrary gl;
+        MicroGraphics gl;
         PushButton next, back, select, menu;
         PiezoSpeaker buzzer;
 
@@ -93,7 +93,8 @@ namespace Transpiration
 
             Console.WriteLine("Initialize hardware...");
 
-            var config = new SpiClockConfiguration(48000, SpiClockConfiguration.Mode.Mode3);
+            var config = new SpiClockConfiguration(new Meadow.Units.Frequency(48000, Meadow.Units.Frequency.UnitType.Kilohertz),
+                SpiClockConfiguration.Mode.Mode3);
             var spiBus = Device.CreateSpiBus(Device.Pins.SCK, Device.Pins.MOSI, Device.Pins.MISO, config);
 
             Console.WriteLine("Initalize display driver");
@@ -108,7 +109,7 @@ namespace Transpiration
 
             Console.WriteLine("Initialize MicroGraphics");
 
-            gl = new GraphicsLibrary(display);
+            gl = new MicroGraphics(display);
 
             Console.WriteLine("Initialize temp sensor");
 
