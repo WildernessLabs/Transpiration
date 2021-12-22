@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using Meadow;
 using Meadow.Devices;
@@ -75,6 +76,21 @@ namespace Transpiration
                 Console.WriteLine($"Mode changed {(Int32)o}");
                 transpiration.SetMode((Transpiration.TranspirationState)o);
             };
+        }
+
+        void TestRects()
+        {
+            for(int i = 1; i < 9; i++)
+            {
+                gl.Clear();
+                gl.DrawRectangle(i * 10, i * 10, 10, 10, Color.White, true);
+                gl.Show();
+                Console.WriteLine($"Rect: {i}");
+                Thread.Sleep(1000);
+            }
+
+
+
         }
 
         async Task UpdateClock()

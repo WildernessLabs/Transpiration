@@ -239,6 +239,10 @@ namespace Transpiration
             {
                 intervalTimer.Next();
             }
+            else
+            {
+                clock.ToggleCalendar();
+            }
         }
 
         public void Reset()

@@ -8,8 +8,16 @@ namespace Transpiration
 {
     public partial class Clock
     {
+        bool showCalendar = false;
+
         public void Update(MicroGraphics gl, ITemperatureSensor temperatureSensor)
         {
+            if(showCalendar)
+            {
+                DrawCalendar(gl);
+                return;
+            }
+
             var time = DateTime.Now.ToString("h:mm", CultureInfo.InvariantCulture);
             gl.DrawText(0, 40, time,
                 ScaleFactor.X3, TextAlignment.Left);
@@ -24,6 +32,11 @@ namespace Transpiration
 
             gl.DrawText(10, 140, tempString,
                 ScaleFactor.X1, TextAlignment.Left);
+        }
+
+        public void ToggleCalendar()
+        {
+            showCalendar = !showCalendar;
         }
     }
 }
