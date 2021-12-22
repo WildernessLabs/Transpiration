@@ -32,7 +32,7 @@ namespace Transpiration
                 y = top + (j * cellHeight);
                 for (int i = 0; i < 7; i++)
                 {
-                    x = 1 + 17 + cellWidth * i;
+                    x = 1 + cellWidth / 2 + cellWidth * i;
 
                     //Draw week day abbrivations 
                     if(j == 0)
@@ -50,8 +50,7 @@ namespace Transpiration
                         //if the cell is today then invert 
                         if (day == date.Day)
                         {
-                            Console.WriteLine($"x: {x}, y: {y} - {day}");
-                            g.DrawRectangle(x - 17, y, cellWidth - 1, cellHeight - 1, Settings.ThemeColor, true);
+                            g.DrawRectangle(x - cellWidth/2, y, cellWidth - 1, cellHeight - 1, Settings.ThemeColor, true);
                             g.DrawText(x, y + textOffset, $"{day}", Color.Black, alignment: TextAlignment.Center);
                         }
                         else
