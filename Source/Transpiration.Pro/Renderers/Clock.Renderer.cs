@@ -4,17 +4,19 @@ using System;
 
 namespace Transpiration
 {
-    public partial class Clock
+    public partial class Clock : IMode
     {
-        IFont fontClock;
-        IFont fontDate;
+        IFont fontClock = new Font6x8();
+        IFont fontDate = new Font4x6();
+
+        public int RenderDelay => 500;
 
         public void Update(MicroGraphics gl, ITemperatureSensor temperatureSensor)
         {
-            if(fontClock == null)
+            if(showCalendar)
             {
-                fontDate = new Font4x6();
-                fontClock = new Font6x8();
+                UpdateCalendar(gl);
+                return;
             }
 
             gl.Clear();
@@ -23,10 +25,10 @@ namespace Transpiration
             // gl.DrawText(-1, 0, $"{DateTime.Now.ToString("hh")}");
             var hour = $"{DateTime.Now.ToString("hh").TrimStart('0')}";
 
-            gl.DrawText(11, 0, hour, alignment: TextAlignment.Right);
-            gl.DrawPixel(11, 2);
-            gl.DrawPixel(11, 5);
-            gl.DrawText(13, 0, $"{DateTime.Now.ToString("mm")}");
+            gl.DrawText(10, 0, hour, alignment: TextAlignment.Right);
+            gl.DrawPixel(10, 2);
+            gl.DrawPixel(10, 5);
+            gl.DrawText(12, 0, $"{DateTime.Now.ToString("mm")}");
 
             gl.CurrentFont = fontDate;
             var ampm = (DateTime.Now.Hour > 11) ? "PM" : "AM";
@@ -41,15 +43,27 @@ namespace Transpiration
             }
             catch
             {
-
+                
             }
 
             gl.Show();
         }
 
-        public void ToggleCalendar()
+        void UpdateCalendar(MicroGraphics gl)
         {
+            gl.Clear();
 
+            gl.CurrentFont = fontDate;
+
+            gl.DrawText(16, 1, DateTime.Now.ToString("ddd").ToUpper(), alignment: TextAlignment.Center);
+
+            gl.DrawText(16, 9, $"{DateTime.Now.ToString("MMM").ToUpper()} {DateTime.Now.Day}", alignment: TextAlignment.Center);
+
+            gl.DrawText(16, 17, $"{DateTime.Now.ToString("yyy")}", alignment: TextAlignment.Center);
+
+            gl.Show();
         }
+
+        
     }
 }

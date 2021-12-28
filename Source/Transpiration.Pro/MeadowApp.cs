@@ -5,161 +5,162 @@ using Meadow.Devices;
 using Meadow.Foundation.Audio;
 using Meadow.Foundation.Displays;
 using Meadow.Foundation.Graphics;
+using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Buttons;
-using Meadow.Foundation.Sensors.Temperature;
 using Meadow.Hardware;
 using Transpiration.Services;
 
-namespace Transpiration
+namespace Transpiration;
+
+public class MeadowApp : App<F7Micro, MeadowApp>
 {
-    public class MeadowApp : App<F7Micro, MeadowApp>
+    Max7219 display;
+    MicroGraphics gl;
+    PushButton next, back, select, menu;
+    PiezoSpeaker buzzer;
+
+    Htu21d tempSensor;
+
+    BLEService bleService;
+
+    Transpiration transpiration;
+
+    public MeadowApp()
     {
-        Max7219 display;
-        MicroGraphics gl;
-        PushButton next, back, select, menu;
-        PiezoSpeaker buzzer;
+        Initialize();
 
-        Tmp102 tempSensor;
+        //draw init text
+        gl.Clear();
+        gl.DrawLine(0, 0, 4, 4, true);
+        gl.CurrentFont = new Font4x6();
+        gl.DrawText(0, 0, "Init");
+        gl.Show();
 
-        BLEService bleService;
+        //Init transpiration 
+        transpiration = new Transpiration();
+        transpiration.Init(gl, buzzer, tempSensor);
+        transpiration.Show();
 
-        Transpiration transpiration;
+        //update intervals to test
+        transpiration.WorkoutInterval = 240;
+        transpiration.RestInterval = 30;
 
-        public MeadowApp()
+            _ = UpdateClock();
+
+        bleService = new BLEService();
+        bleService.Initialize(Device);
+
+        //event coordination between the BLE service and the transpiration logic
+        bleService.RestIntervalChanged += (c, o) =>
         {
-            Initialize();
+            Console.WriteLine($"Rest interval changed {(Int32)o}");
+            transpiration.RestInterval = (Int32)o;
+        };
 
-            //draw init text
-            gl.Clear();
-            gl.DrawLine(0, 0, 4, 4, true);
-            gl.CurrentFont = new Font4x6();
-            gl.DrawText(0, 0, "Init");
-            gl.Show();
-
-            //Init transpiration 
-            transpiration = new Transpiration();
-            transpiration.Init(gl, buzzer, tempSensor);
-            transpiration.Show(gl);
-
-            //update intervals to test
-            transpiration.WorkoutInterval = 240;
-            transpiration.RestInterval = 30;
-
-              _ = UpdateClock();
-
-            bleService = new BLEService();
-            bleService.Initialize(Device);
-
-            //event coordination between the BLE service and the transpiration logic
-            bleService.RestIntervalChanged += (c, o) =>
-            {
-                Console.WriteLine($"Rest interval changed {(Int32)o}");
-                transpiration.RestInterval = (Int32)o;
-            };
-
-            bleService.WorkoutIntervalChanged += (c, o) =>
-            {
-                Console.WriteLine($"Rest interval changed {(Int32)o}");
-                transpiration.WorkoutInterval = (Int32)o;
-            };
-
-            bleService.ModeChanged += (c, o) =>
-            {
-                Console.WriteLine($"Mode changed {(Int32)o}");
-                transpiration.SetMode((Transpiration.TranspirationState)o);
-            };
-        }
-
-        async Task UpdateClock()
+        bleService.WorkoutIntervalChanged += (c, o) =>
         {
-            var result = await Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
+            Console.WriteLine($"Rest interval changed {(Int32)o}");
+            transpiration.WorkoutInterval = (Int32)o;
+        };
 
-            var today = await ClockService.GetTime();
-
-            Device.SetClock(today.Subtract(new TimeSpan(7, 0, 0)));
-        }
-
-        void Initialize()
+        bleService.ModeChanged += (c, o) =>
         {
-            //set a reasonable default date
-            MeadowApp.Device.SetClock(new DateTime(2021, 12, 1));
+            Console.WriteLine($"Mode changed {(Int32)o}");
+            transpiration.SetMode((Transpiration.TranspirationState)o);
+        };
+    }
 
-            Console.WriteLine("Initalize display driver");
+    async Task UpdateClock()
+    {
+        var result = await Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
 
-            display = new Max7219(Device,
-                 Device.CreateSpiBus(),
-                 Device.Pins.D00,
-                 4, 3,
-                 Max7219.Max7219Type.Display);
+        var today = await ClockService.GetTime();
 
-            display.IgnoreOutOfBoundsPixels = true;
+        Device.SetClock(today.Subtract(new TimeSpan(7, 0, 0)));
+    }
 
-            display.SetBrightness(0);
-            display.SetBrightness(6, 0);
-            display.SetBrightness(6, 1);
-            display.SetBrightness(6, 2);
-            display.SetBrightness(6, 3);
+    void Initialize()
+    {
+        //set a reasonable default date
+        MeadowApp.Device.SetClock(new DateTime(2021, 12, 1));
 
-            Console.WriteLine("Initialize MicroGraphics");
+        Console.WriteLine("Initalize display driver");
 
-            gl = new MicroGraphics(display);
-            gl.Rotation = RotationType._90Degrees;
+        display = new Max7219(Device,
+                Device.CreateSpiBus(),
+                Device.Pins.D00,
+                4, 3,
+                Max7219.Max7219Type.Display);
 
-            gl.Clear();
+        display.IgnoreOutOfBoundsPixels = true;
 
-            gl.Show();
+        display.SetBrightness(0);
+        display.SetBrightness(6, 0);
+        display.SetBrightness(6, 1);
+        display.SetBrightness(6, 2);
+        display.SetBrightness(6, 3);
 
-            display.IgnoreOutOfBoundsPixels = true;
+        Console.WriteLine("Initialize MicroGraphics");
 
-            Console.WriteLine("Initialize temp sensor");
+        gl = new MicroGraphics(display);
+        gl.Rotation = RotationType._90Degrees;
 
-            //Init temp sensor
-            tempSensor = new Tmp102(Device.CreateI2cBus());
+        gl.Clear();
 
-            var result = tempSensor.Read();
-            result.Wait();
+        gl.Show();
 
-            Console.WriteLine("Current temp" + result.Result.Celsius);
+        display.IgnoreOutOfBoundsPixels = true;
 
-            Console.WriteLine("Initialize buttons");
+        Console.WriteLine("Initialize temp sensor");
 
-            next = new PushButton(Device, Device.Pins.D11, ResistorMode.InternalPullDown);
-            back = new PushButton(Device, Device.Pins.D12, ResistorMode.InternalPullDown);
-            select = new PushButton(Device, Device.Pins.D13, ResistorMode.InternalPullDown);
-            menu = new PushButton(Device, Device.Pins.D14, ResistorMode.InternalPullDown);
+        //Init temp sensor
+        tempSensor = new Htu21d(Device.CreateI2cBus());
+
+        var result = tempSensor.Read();
+        result.Wait();
+
+        Console.WriteLine("Current temp" + result.Result.Temperature.Value.Celsius);
+
+        tempSensor.StartUpdating();
+
+        Console.WriteLine("Initialize buttons");
+
+        next = new PushButton(Device, Device.Pins.D13, ResistorMode.InternalPullDown);
+        back = new PushButton(Device, Device.Pins.D11, ResistorMode.InternalPullDown);
+        select = new PushButton(Device, Device.Pins.D12, ResistorMode.InternalPullDown);
+        menu = new PushButton(Device, Device.Pins.D14, ResistorMode.InternalPullDown);
             
-            next.Clicked += Next_Clicked;
-            back.Clicked += Back_Clicked;
-            select.Clicked += Select_Clicked;
-            menu.Clicked += MenuClicked;
+        next.Clicked += Next_Clicked;
+        back.Clicked += Back_Clicked;
+        select.Clicked += Select_Clicked;
+        menu.Clicked += MenuClicked;
 
-            Console.WriteLine("Initialize piezo");
+        Console.WriteLine("Initialize piezo");
 
-            buzzer = new PiezoSpeaker(Device, Device.Pins.D10);
-        }
+        buzzer = new PiezoSpeaker(Device, Device.Pins.D10);
+    }
 
-        private void MenuClicked(object sender, EventArgs e)
-        {
-            Console.WriteLine("MenuClicked");
-            transpiration.ToggleMenu(gl);
-        }
+    private void MenuClicked(object sender, EventArgs e)
+    {
+        Console.WriteLine("MenuClicked");
+        transpiration.ToggleMenu();
+    }
 
-        private void Select_Clicked(object sender, EventArgs e)
-        {
-            Console.WriteLine("SelectClicked");
-            transpiration.Select();
-        }
+    private void Select_Clicked(object sender, EventArgs e)
+    {
+        Console.WriteLine("SelectClicked");
+        transpiration.Select();
+    }
 
-        private void Back_Clicked(object sender, EventArgs e)
-        {
-            Console.WriteLine("BackClicked");
-            transpiration.Back();
-        }
+    private void Back_Clicked(object sender, EventArgs e)
+    {
+        Console.WriteLine("BackClicked");
+        transpiration.Back();
+    }
 
-        private void Next_Clicked(object sender, EventArgs e)
-        {
-            Console.WriteLine("NextClicked");
-            transpiration.Next();
-        }
+    private void Next_Clicked(object sender, EventArgs e)
+    {
+        Console.WriteLine("NextClicked");
+        transpiration.Next();
     }
 }

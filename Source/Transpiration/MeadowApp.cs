@@ -78,21 +78,6 @@ namespace Transpiration
             };
         }
 
-        void TestRects()
-        {
-            for(int i = 1; i < 9; i++)
-            {
-                gl.Clear();
-                gl.DrawRectangle(i * 10, i * 10, 10, 10, Color.White, true);
-                gl.Show();
-                Console.WriteLine($"Rect: {i}");
-                Thread.Sleep(1000);
-            }
-
-
-
-        }
-
         async Task UpdateClock()
         {
             var result = await Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);

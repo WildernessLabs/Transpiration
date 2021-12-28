@@ -1,14 +1,13 @@
 ﻿using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 
-namespace Transpiration
+namespace Transpiration;
+
+public static class Settings
 {
-    public static class Settings
-    {
-        public static Color ThemeColor => Color.White; // FromHex("889291");
+    public static Color ThemeColor => Color.White; // FromHex("889291");
 
-        public static int TimeZoneOffset => -8;
+    public static int TimeZoneOffset => -8;
 
-        public static MicroGraphics Canvas { get; set; }
-    }
+    public static MicroGraphics Canvas { get; set; }
 }

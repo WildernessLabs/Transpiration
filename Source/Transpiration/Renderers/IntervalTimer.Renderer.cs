@@ -1,12 +1,15 @@
 ﻿using System;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
+using Meadow.Peripherals.Sensors;
 
 namespace Transpiration
 {
-    public partial class IntervalTimer
+    public partial class IntervalTimer : IMode
     {
-        public void Update(MicroGraphics gl)
+        public int RenderDelay => 500;
+
+        public void Update(MicroGraphics gl, ITemperatureSensor sensor = null)
         {
             long seconds = (DateTime.Now - intervalStart).Ticks / 10000000;
             if (itState == IntervalTimerState.Stop) { seconds = 0; }

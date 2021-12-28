@@ -1,7 +1,11 @@
-﻿namespace Transpiration
+﻿namespace Transpiration;
+
+public partial class Clock
 {
-    public partial class Clock
+    bool showCalendar = false;
+
+    public void ToggleCalendar()
     {
-        
+        showCalendar = !showCalendar;
     }
 }

@@ -33,6 +33,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Transpiration.Core", "Trans
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensors.Temperature.Tmp102", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Temperature.Tmp102\Driver\Sensors.Temperature.Tmp102\Sensors.Temperature.Tmp102.csproj", "{9052BB26-D3E5-402C-AB55-B9E91006DBAF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensors.Atmospheric.Htu21d", "..\..\meadow.foundation\Source\Meadow.Foundation.Peripherals\Sensors.Atmospheric.Htu21d\Driver\Sensors.Atmospheric.Htu21d\Sensors.Atmospheric.Htu21d.csproj", "{20DE0156-B530-4D88-8D1D-6AACD6BA9013}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Transpiration.Core\Transpiration.Core.projitems*{2cdbf8d7-6f8c-445f-808d-1b0cbf4399d0}*SharedItemsImports = 5
@@ -96,6 +98,12 @@ Global
 		{9052BB26-D3E5-402C-AB55-B9E91006DBAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9052BB26-D3E5-402C-AB55-B9E91006DBAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9052BB26-D3E5-402C-AB55-B9E91006DBAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20DE0156-B530-4D88-8D1D-6AACD6BA9013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20DE0156-B530-4D88-8D1D-6AACD6BA9013}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20DE0156-B530-4D88-8D1D-6AACD6BA9013}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{20DE0156-B530-4D88-8D1D-6AACD6BA9013}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20DE0156-B530-4D88-8D1D-6AACD6BA9013}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20DE0156-B530-4D88-8D1D-6AACD6BA9013}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +120,7 @@ Global
 		{3BA63C25-FE9C-4F73-8D8B-4DADCD20BA1E} = {45357E67-3BAB-4D85-8CC7-04E3EB81F503}
 		{252B7F08-A22E-4ACB-B22A-6A23F103D1A8} = {45357E67-3BAB-4D85-8CC7-04E3EB81F503}
 		{9052BB26-D3E5-402C-AB55-B9E91006DBAF} = {45357E67-3BAB-4D85-8CC7-04E3EB81F503}
+		{20DE0156-B530-4D88-8D1D-6AACD6BA9013} = {45357E67-3BAB-4D85-8CC7-04E3EB81F503}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {43D40815-4A90-400F-BAAD-68CA38048608}

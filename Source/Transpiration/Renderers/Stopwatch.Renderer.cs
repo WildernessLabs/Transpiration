@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Linq;
 using Meadow.Foundation.Graphics;
+using Meadow.Peripherals.Sensors;
 
 namespace Transpiration
 {
-	public partial class Stopwatch
+	public partial class Stopwatch : IMode
 	{
-		public void Update(MicroGraphics gl)
+        public int RenderDelay => 10;
+
+        public void Update(MicroGraphics gl, ITemperatureSensor sensor = null)
         {
             if (swState == StopWatchState.Start)
             {

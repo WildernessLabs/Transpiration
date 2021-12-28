@@ -9,11 +9,14 @@
     <Import_RootNamespace>Transpiration.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Abstractions\IMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logic\Clock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logic\IntervalTimer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logic\Stopwatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logic\Timer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\BLEService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ClockService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Transpiration.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+    <Compile Include="$(MSBuildThisFileDirectory)Transpiration.Enums.cs" />
   </ItemGroup>
 </Project>
