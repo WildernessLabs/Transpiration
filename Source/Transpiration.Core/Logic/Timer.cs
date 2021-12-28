@@ -46,6 +46,8 @@ public partial class Timer
 
     public void Next()
     {
+        Console.WriteLine($"timer state: {timerState}");
+
         if (timerState == StopWatchState.Stop)
         {
             timerOffset = 0;
@@ -62,5 +64,7 @@ public partial class Timer
             timerStart = DateTime.Now;
             timerState = StopWatchState.Start;
         }
+
+        Console.WriteLine($"timer state: {timerState}");
     }
 }

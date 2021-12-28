@@ -215,7 +215,7 @@ public class Transpiration
         }
         else if(state == TranspirationState.Timer)
         {
-
+            timer.Back();
         }
         else
         {
@@ -243,7 +243,7 @@ public class Transpiration
         }
         else if (state == TranspirationState.Timer)
         {
-
+            timer.Next();
         }
         else
         {

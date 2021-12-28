@@ -8,7 +8,7 @@ public partial class Timer : IMode
 {
     IFont timerFont = new Font4x6();
 
-    public int RenderDelay => 500;
+    public int RenderDelay => 100;
 
     public void Update(MicroGraphics gl, ITemperatureSensor temperatureSensor)
     {
@@ -19,20 +19,20 @@ public partial class Timer : IMode
 
         if (timerState == StopWatchState.Start)
         {
-            gl.DrawText(0, 1, GeTimerTime((DateTime.Now - timerStart).Ticks + timerOffset));
+            gl.DrawText(33, 1, GeTimerTime((DateTime.Now - timerStart).Ticks + timerOffset), alignment: TextAlignment.Right);
         }
         else
         {
-            gl.DrawText(0, 1, GeTimerTime(timerOffset));
+            gl.DrawText(33, 1, GeTimerTime(timerOffset), alignment: TextAlignment.Right);
         }
 
         //draw time
-        gl.DrawText(0, 9, $"{DateTime.Now.ToString("h:mm:tt")}");
+        gl.DrawText(33, 9, $"{DateTime.Now.ToString("h:mm:tt")}", alignment: TextAlignment.Right);
 
         //draw temperature
         try
         {
-            gl.DrawText(0, 18, $"{temperatureSensor?.Temperature.Value.Celsius.ToString("0.0")} C");
+            gl.DrawText(33, 18, $"{temperatureSensor?.Temperature.Value.Celsius.ToString("0.0")} C", alignment: TextAlignment.Right);
         }
         catch
         {

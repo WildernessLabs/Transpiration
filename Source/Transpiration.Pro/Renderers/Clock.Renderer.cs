@@ -32,7 +32,7 @@ namespace Transpiration
 
             gl.CurrentFont = fontDate;
             var ampm = (DateTime.Now.Hour > 11) ? "PM" : "AM";
-            gl.DrawText(25, 2, ampm);
+            gl.DrawText(24, 2, ampm);
 
             gl.CurrentFont = fontDate;
             gl.DrawText(16, 10, $"{DateTime.Now.ToString("MMM").ToUpper()} {DateTime.Now.Day}", alignment: TextAlignment.Center);
