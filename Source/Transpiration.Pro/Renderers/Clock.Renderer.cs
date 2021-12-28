@@ -6,10 +6,10 @@ namespace Transpiration
 {
     public partial class Clock
     {
-        FontBase fontClock;
-        FontBase fontDate;
+        IFont fontClock;
+        IFont fontDate;
 
-        public void Update(GraphicsLibrary gl, ITemperatureSensor temperatureSensor)
+        public void Update(MicroGraphics gl, ITemperatureSensor temperatureSensor)
         {
             if(fontClock == null)
             {
@@ -23,7 +23,7 @@ namespace Transpiration
             // gl.DrawText(-1, 0, $"{DateTime.Now.ToString("hh")}");
             var hour = $"{DateTime.Now.ToString("hh").TrimStart('0')}";
 
-            gl.DrawText(11, 0, hour, alignment: GraphicsLibrary.TextAlignment.Right);
+            gl.DrawText(11, 0, hour, alignment: TextAlignment.Right);
             gl.DrawPixel(11, 2);
             gl.DrawPixel(11, 5);
             gl.DrawText(13, 0, $"{DateTime.Now.ToString("mm")}");
@@ -33,11 +33,11 @@ namespace Transpiration
             gl.DrawText(25, 2, ampm);
 
             gl.CurrentFont = fontDate;
-            gl.DrawText(16, 10, $"{DateTime.Now.ToString("MMM").ToUpper()} {DateTime.Now.Day}", alignment: GraphicsLibrary.TextAlignment.Center);
+            gl.DrawText(16, 10, $"{DateTime.Now.ToString("MMM").ToUpper()} {DateTime.Now.Day}", alignment: TextAlignment.Center);
 
             try
             {
-                gl.DrawText(16, 18, $"{temperatureSensor?.Temperature.Value.Celsius.ToString("0.0")} C", alignment: GraphicsLibrary.TextAlignment.Center);
+                gl.DrawText(16, 18, $"{temperatureSensor?.Temperature.Value.Celsius.ToString("0.0")} C", alignment: TextAlignment.Center);
             }
             catch
             {
@@ -45,6 +45,10 @@ namespace Transpiration
             }
 
             gl.Show();
+        }
+
+        public void ToggleCalendar()
+        {
 
         }
     }

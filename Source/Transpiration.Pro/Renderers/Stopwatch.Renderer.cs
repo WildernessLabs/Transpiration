@@ -6,9 +6,9 @@ namespace Transpiration
 {
 	public partial class Stopwatch
 	{
-        FontBase fontDate;
+        IFont fontDate;
 
-		public void Update(GraphicsLibrary gl)
+		public void Update(MicroGraphics gl)
         {
             if(fontDate == null)
             {

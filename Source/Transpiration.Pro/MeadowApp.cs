@@ -15,7 +15,7 @@ namespace Transpiration
     public class MeadowApp : App<F7Micro, MeadowApp>
     {
         Max7219 display;
-        GraphicsLibrary gl;
+        MicroGraphics gl;
         PushButton next, back, select, menu;
         PiezoSpeaker buzzer;
 
@@ -102,7 +102,7 @@ namespace Transpiration
 
             Console.WriteLine("Initialize MicroGraphics");
 
-            gl = new GraphicsLibrary(display);
+            gl = new MicroGraphics(display);
             gl.Rotation = RotationType._90Degrees;
 
             gl.Clear();

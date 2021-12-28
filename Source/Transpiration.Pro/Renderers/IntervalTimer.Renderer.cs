@@ -5,10 +5,10 @@ namespace Transpiration
 {
     public partial class IntervalTimer
     {
-        FontBase fontClock;
-        FontBase fontDate;
+        IFont fontClock;
+        IFont fontDate;
 
-        public void Update(GraphicsLibrary gl)
+        public void Update(MicroGraphics gl)
         {
             if(fontClock == null)
             {
@@ -23,12 +23,12 @@ namespace Transpiration
 
             gl.CurrentFont = fontClock;
 
-            gl.DrawText(gl.Width + 1, 0, GetActiveTime(seconds), alignment: GraphicsLibrary.TextAlignment.Right);
-            gl.DrawText(gl.Width + 1, 8, GetRestTime(seconds), alignment: GraphicsLibrary.TextAlignment.Right);
+            gl.DrawText(gl.Width + 1, 0, GetActiveTime(seconds), alignment: TextAlignment.Right);
+            gl.DrawText(gl.Width + 1, 8, GetRestTime(seconds), alignment: TextAlignment.Right);
 
             gl.CurrentFont = fontDate;
             gl.DrawText(0, 18, $"{GetInterval(seconds)}");
-            gl.DrawText(gl.Width + 1, 18, GetTotalTime(seconds), alignment: GraphicsLibrary.TextAlignment.Right);
+            gl.DrawText(gl.Width + 1, 18, GetTotalTime(seconds), alignment: TextAlignment.Right);
 
             gl.Show();
         }
