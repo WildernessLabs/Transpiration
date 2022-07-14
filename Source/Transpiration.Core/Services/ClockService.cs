@@ -15,10 +15,12 @@ public static class ClockService
 
     public static async Task<DateTime> GetTime()
     {
+        Console.WriteLine("Get time from Clock service");
+
         string json;
 
         // uncomment to get live data
-        using (HttpClient client = new HttpClient())
+        using (var client = new HttpClient())
         {
                 HttpResponseMessage response = await client.GetAsync(clockDataUri + "Vancouver");
                 json = await response.Content.ReadAsStringAsync();
@@ -32,6 +34,7 @@ public static class ClockService
 
         var today = DateTime.Parse(todayString);
 
-        return today;
+        //daylight savings hack 
+        return today.Subtract(new TimeSpan(1, 0, 0));
     }
 }

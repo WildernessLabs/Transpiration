@@ -15,8 +15,6 @@ public partial class Timer : IMode
         gl.Clear();
      
         //draw current timer time
-        gl.CurrentFont = timerFont;
-
         if (timerState == StopWatchState.Start)
         {
             gl.DrawText(33, 1, GeTimerTime((DateTime.Now - timerStart).Ticks + timerOffset), alignment: TextAlignment.Right);

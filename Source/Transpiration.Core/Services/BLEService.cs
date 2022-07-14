@@ -32,7 +32,7 @@ public class BLEService
         restIntervalCharacteristic?.SetValue(interval);
     }
 
-    public void Initialize(F7Micro device)
+    public void Initialize(F7FeatherBase device)
     {
         // initialize the bluetooth defnition tree
         Console.WriteLine("Starting the BLE server");

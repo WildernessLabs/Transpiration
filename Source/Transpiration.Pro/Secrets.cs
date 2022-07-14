@@ -5,11 +5,11 @@
         /// <summary>
         /// Name of the WiFi network to use.
         /// </summary>
-        public const string WIFI_NAME = "BunnyMesh"; // "BunnysByTheBay"; // "TELUSDC1E";
+        public const string WIFI_NAME = "";
 
         /// <summary>
         /// Password for the WiFi network names in WIFI_NAME.
         /// </summary>
-        public const string WIFI_PASSWORD = "zxpvi29wt8"; //"zxpvi29wt8";// "tnrXFa6MVqAU";
+        public const string WIFI_PASSWORD = "";
     }
 }

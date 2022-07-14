@@ -14,15 +14,12 @@ public partial class Timer
     {
         ticks /= 1000000;
 
-        long h = ticks / 36000;
-        ticks %= 36000;
-
         long m = ticks / 600;
         ticks %= 600;
 
         long s = ticks / 10;
 
-        return $"{h:00}:{m:00}:{s:00}";
+        return $"{m:00}:{s:00}";
     }
 
     public void Back()

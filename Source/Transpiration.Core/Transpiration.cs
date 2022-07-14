@@ -266,20 +266,12 @@ public class Transpiration
             return;
         }
 
-        switch (state)
+        state = state switch
         {
-            case TranspirationState.Clock:
-                state = TranspirationState.StopWatch;
-                break;
-            case TranspirationState.StopWatch:
-                state = TranspirationState.IntervalTimer;
-                break;
-            case TranspirationState.IntervalTimer:
-                state = TranspirationState.Timer;
-                break;
-            default:
-                state = TranspirationState.Clock;
-                break;
-        }
+            TranspirationState.Clock => TranspirationState.StopWatch,
+            TranspirationState.StopWatch => TranspirationState.IntervalTimer,
+            TranspirationState.IntervalTimer => TranspirationState.Timer,
+            _ => TranspirationState.Clock,
+        };
     }
 }

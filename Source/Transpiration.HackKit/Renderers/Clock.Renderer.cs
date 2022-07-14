@@ -19,6 +19,7 @@ public partial class Clock : IMode
         }
 
         var time = DateTime.Now.ToString("h:mm", CultureInfo.InvariantCulture);
+
         gl.DrawText(0, 40, time,
             ScaleFactor.X3, TextAlignment.Left);
 

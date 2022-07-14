@@ -12,7 +12,7 @@ using Transpiration.Services;
 
 namespace Transpiration;
 
-public class MeadowApp : App<F7Micro, MeadowApp>
+public class MeadowApp : App<F7FeatherV1, MeadowApp>
 {
     Max7219 display;
     MicroGraphics gl;
@@ -31,9 +31,9 @@ public class MeadowApp : App<F7Micro, MeadowApp>
 
         //draw init text
         gl.Clear();
-        gl.DrawLine(0, 0, 4, 4, true);
         gl.CurrentFont = new Font4x6();
-        gl.DrawText(0, 0, "Init");
+        gl.DrawText(0, 0, "Init...");
+        gl.DrawText(0, 8, "v0.1.0");
         gl.Show();
 
         //Init transpiration 
@@ -90,7 +90,7 @@ public class MeadowApp : App<F7Micro, MeadowApp>
                 Device.CreateSpiBus(),
                 Device.Pins.D00,
                 4, 3,
-                Max7219.Max7219Type.Display);
+                Max7219.Max7219Mode.Display);
 
         display.IgnoreOutOfBoundsPixels = true;
 

@@ -14,12 +14,13 @@ using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Foundation.Sensors.Temperature;
 using Meadow.Hardware;
 using Meadow.Peripherals.Sensors;
+using Meadow.Units;
 using SimpleJpegDecoder;
 using Transpiration.Services;
 
 namespace Transpiration
 {
-    public class MeadowApp : App<F7Micro, MeadowApp>
+    public class MeadowApp : App<F7FeatherV2, MeadowApp>
     {
         St7789 display;
         MicroGraphics gl;
@@ -47,7 +48,7 @@ namespace Transpiration
             //Init clock
             transpiration = new Transpiration();
             transpiration.Init(gl, buzzer, tempSensor);
-            transpiration.Show(gl);
+            transpiration.Show();
 
             //update intervals to test
             transpiration.WorkoutInterval = 240;
@@ -55,6 +56,7 @@ namespace Transpiration
 
             _ = UpdateClock();
 
+            /*
             bleService = new BLEService();
             bleService.Initialize(Device);
 
@@ -76,6 +78,8 @@ namespace Transpiration
                 Console.WriteLine($"Mode changed {(Int32)o}");
                 transpiration.SetMode((Transpiration.TranspirationState)o);
             };
+
+            */
         }
 
         async Task UpdateClock()
@@ -89,12 +93,14 @@ namespace Transpiration
 
         void Initialize()
         {
+            Console.WriteLine("Set Clock...");
+
             //set a reasonable default date
-            MeadowApp.Device.SetClock(new DateTime(2021, 11, 1));
+            Device.SetClock(new DateTime(2021, 11, 1));
 
             Console.WriteLine("Initialize hardware...");
 
-            var config = new SpiClockConfiguration(new Meadow.Units.Frequency(48000, Meadow.Units.Frequency.UnitType.Kilohertz),
+            var config = new SpiClockConfiguration(new Frequency(48000, Frequency.UnitType.Kilohertz),
                 SpiClockConfiguration.Mode.Mode3);
             var spiBus = Device.CreateSpiBus(Device.Pins.SCK, Device.Pins.MOSI, Device.Pins.MISO, config);
 
@@ -115,8 +121,10 @@ namespace Transpiration
             Console.WriteLine("Initialize temp sensor");
 
             //Init temp sensor
-            tempSensor = new AnalogTemperature(Device, Device.Pins.A01, AnalogTemperature.KnownSensorType.LM35);
-            (tempSensor as AnalogTemperature).StartUpdating(new TimeSpan(0, 5, 0));
+            IAnalogInputController ac = Device;
+
+            tempSensor = new AnalogTemperature(device : ac, Device.Pins.A01, AnalogTemperature.KnownSensorType.LM35);
+            (tempSensor as AnalogTemperature).StartUpdating(new TimeSpan(0, 1, 0));
 
             Console.WriteLine("Initialize buttons");
 
@@ -139,7 +147,7 @@ namespace Transpiration
         private void Select_LongClicked(object sender, EventArgs e)
         {
             Console.WriteLine("Long pressed");
-            transpiration.ToggleMenu(gl);
+            transpiration.ToggleMenu();
         }
 
         private void Select_Clicked(object sender, EventArgs e)
@@ -224,7 +232,7 @@ namespace Transpiration
 
             var decoder = new JpegDecoder();
             var jpg = decoder.DecodeJpeg(jpgData);
-           
+
             Console.WriteLine($"Jpeg decoded is {jpg.Length} bytes");
             Console.WriteLine($"Width {decoder.Width}");
             Console.WriteLine($"Height {decoder.Height}");
@@ -242,26 +250,6 @@ namespace Transpiration
 
             display.DrawBuffer(x, y, jpgImage);
 
-            /*
-
-            byte r, g, b;
-
-            for (int i = 0; i < jpg.Length; i += 3)
-            {
-                r = jpg[i];
-                g = jpg[i + 1];
-                b = jpg[i + 2];
-
-                display.DrawPixel(x, y, r, g, b);
-
-                x++;
-
-                if (x % decoder.Width == 0)
-                {
-                    y++;
-                    x = 0;
-                }
-            } */
             sw.Stop();
 
             Console.WriteLine($"Jpeg show: {sw.Elapsed}");
@@ -272,7 +260,7 @@ namespace Transpiration
         byte[] LoadResource(string filename)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = $"Transpiration.{filename}";
+            var resourceName = $"Transpiration.HackKit.{filename}";
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {

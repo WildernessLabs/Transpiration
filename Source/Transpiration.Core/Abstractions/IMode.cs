@@ -5,7 +5,8 @@ namespace Transpiration;
 
 public interface IMode
 {
-    public void Update(MicroGraphics gl, ITemperatureSensor temperatureSensor = null);
+    public void Update(MicroGraphics gl,
+        ITemperatureSensor temperatureSensor = null);
 
     public int RenderDelay { get; }
 }
