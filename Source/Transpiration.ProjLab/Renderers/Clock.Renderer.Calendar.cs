@@ -24,7 +24,7 @@ namespace Transpiration
 
             g.Clear();
 
-            g.DrawText(120, 0, DateTime.Now.ToString("MMMM, yyyy"), Settings.ThemeColor, alignment: TextAlignment.Center);
+            g.DrawText(120, 0, DateTime.Now.ToString("MMMM, yyyy"), Settings.ThemeColor, alignmentH: HorizontalAlignment.Center);
 
             //loop over every cell in the calendar
             for (int j = 0; j < 8; j++)
@@ -37,7 +37,7 @@ namespace Transpiration
                     //Draw week day abbrivations 
                     if(j == 0)
                     {
-                        g.DrawText(x, y + textOffset, days[i], Settings.ThemeColor, alignment: TextAlignment.Center);
+                        g.DrawText(x, y + textOffset, days[i], Settings.ThemeColor, alignmentH: HorizontalAlignment.Center);
                         continue;
                     }
 
@@ -51,11 +51,11 @@ namespace Transpiration
                         if (day == date.Day)
                         {
                             g.DrawRectangle(x - cellWidth/2, y, cellWidth - 1, cellHeight - 1, Settings.ThemeColor, true);
-                            g.DrawText(x, y + textOffset, $"{day}", Color.Black, alignment: TextAlignment.Center);
+                            g.DrawText(x, y + textOffset, $"{day}", Color.Black, alignmentH: HorizontalAlignment.Center);
                         }
                         else
                         {
-                            g.DrawText(x, y + textOffset, $"{day}", Settings.ThemeColor, alignment: TextAlignment.Center);
+                            g.DrawText(x, y + textOffset, $"{day}", Settings.ThemeColor, alignmentH: HorizontalAlignment.Center);
                         }
                     }
                 }

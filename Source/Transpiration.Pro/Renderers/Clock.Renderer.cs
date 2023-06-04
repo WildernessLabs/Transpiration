@@ -13,7 +13,7 @@ namespace Transpiration
 
         public void Update(MicroGraphics gl, ITemperatureSensor temperatureSensor)
         {
-            if(showCalendar)
+            if (showCalendar)
             {
                 UpdateCalendar(gl);
                 return;
@@ -25,7 +25,7 @@ namespace Transpiration
             // gl.DrawText(-1, 0, $"{DateTime.Now.ToString("hh")}");
             var hour = $"{DateTime.Now.ToString("hh").TrimStart('0')}";
 
-            gl.DrawText(10, 0, hour, alignment: TextAlignment.Right);
+            gl.DrawText(10, 0, hour, alignmentH: HorizontalAlignment.Right);
             gl.DrawPixel(10, 2);
             gl.DrawPixel(10, 5);
             gl.DrawText(12, 0, $"{DateTime.Now.ToString("mm")}");
@@ -35,15 +35,15 @@ namespace Transpiration
             gl.DrawText(24, 2, ampm);
 
             gl.CurrentFont = fontDate;
-            gl.DrawText(16, 10, $"{DateTime.Now.ToString("MMM").ToUpper()} {DateTime.Now.Day}", alignment: TextAlignment.Center);
+            gl.DrawText(16, 10, $"{DateTime.Now.ToString("MMM").ToUpper()} {DateTime.Now.Day}", alignmentH: HorizontalAlignment.Center);
 
             try
             {
-                gl.DrawText(16, 18, $"{temperatureSensor?.Temperature.Value.Celsius.ToString("0.0")} C", alignment: TextAlignment.Center);
+                gl.DrawText(16, 18, $"{temperatureSensor?.Temperature.Value.Celsius.ToString("0.0")} C", alignmentH: HorizontalAlignment.Center);
             }
             catch
             {
-                
+
             }
 
             gl.Show();
@@ -55,15 +55,15 @@ namespace Transpiration
 
             gl.CurrentFont = fontDate;
 
-            gl.DrawText(16, 1, DateTime.Now.ToString("ddd").ToUpper(), alignment: TextAlignment.Center);
+            gl.DrawText(16, 1, DateTime.Now.ToString("ddd").ToUpper(), alignmentH: HorizontalAlignment.Center);
 
-            gl.DrawText(16, 9, $"{DateTime.Now.ToString("MMM").ToUpper()} {DateTime.Now.Day}", alignment: TextAlignment.Center);
+            gl.DrawText(16, 9, $"{DateTime.Now.ToString("MMM").ToUpper()} {DateTime.Now.Day}", alignmentH: HorizontalAlignment.Center);
 
-            gl.DrawText(16, 17, $"{DateTime.Now.ToString("yyy")}", alignment: TextAlignment.Center);
+            gl.DrawText(16, 17, $"{DateTime.Now:yyy}", alignmentH: HorizontalAlignment.Center);
 
             gl.Show();
         }
 
-        
+
     }
 }

@@ -1,13 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using Meadow;
+﻿using Meadow;
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Audio;
-using Meadow.Foundation.Displays.TftSpi;
+using Meadow.Foundation.Displays;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.Buffers;
 using Meadow.Foundation.Sensors.Buttons;
@@ -16,11 +11,15 @@ using Meadow.Hardware;
 using Meadow.Peripherals.Sensors;
 using Meadow.Units;
 using SimpleJpegDecoder;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
 using Transpiration.Services;
 
 namespace Transpiration
 {
-    public class MeadowApp : App<F7FeatherV2, MeadowApp>
+    public class MeadowApp : App<F7FeatherV2>
     {
         St7789 display;
         MicroGraphics gl;
@@ -84,11 +83,21 @@ namespace Transpiration
 
         async Task UpdateClock()
         {
-            var result = await Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
+            var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
+
+            try
+            {
+                Resolver.Log.Info($"Connecting to WiFi Network {Secrets.WIFI_NAME}");
+                await wifi.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD, TimeSpan.FromSeconds(45));
+            }
+            catch (Exception ex)
+            {
+                Resolver.Log.Error($"Failed to Connect: {ex.Message}");
+            }
 
             var today = await ClockService.GetTime();
 
-            Device.SetClock(today.Subtract(new TimeSpan(7, 0, 0)));
+            Device.PlatformOS.SetClock(today.Subtract(new TimeSpan(7, 0, 0)));
         }
 
         void Initialize()
@@ -96,7 +105,7 @@ namespace Transpiration
             Console.WriteLine("Set Clock...");
 
             //set a reasonable default date
-            Device.SetClock(new DateTime(2021, 11, 1));
+            Device.PlatformOS.SetClock(new DateTime(2021, 11, 1));
 
             Console.WriteLine("Initialize hardware...");
 
@@ -106,13 +115,13 @@ namespace Transpiration
 
             Console.WriteLine("Initalize display driver");
 
-            display = new St7789(device: Device, spiBus: spiBus,
+            display = new St7789(spiBus: spiBus,
                 chipSelectPin: null,
                 dcPin: Device.Pins.D01,
                 resetPin: Device.Pins.D00,
-                width: 240, height: 240, ColorType.Format16bppRgb565);
+                width: 240, height: 240, ColorMode.Format16bppRgb565);
 
-            display.IgnoreOutOfBoundsPixels = true;
+            //display.IgnoreOutOfBoundsPixels = true;
 
             Console.WriteLine("Initialize MicroGraphics");
 
@@ -123,14 +132,14 @@ namespace Transpiration
             //Init temp sensor
             IAnalogInputController ac = Device;
 
-            tempSensor = new AnalogTemperature(device : ac, Device.Pins.A01, AnalogTemperature.KnownSensorType.LM35);
+            tempSensor = new AnalogTemperature(Device.Pins.A01, AnalogTemperature.KnownSensorType.LM35);
             (tempSensor as AnalogTemperature).StartUpdating(new TimeSpan(0, 1, 0));
 
             Console.WriteLine("Initialize buttons");
 
-            next = new PushButton(Device, Device.Pins.D03, ResistorMode.InternalPullUp);
-            back = new PushButton(Device, Device.Pins.D02, ResistorMode.InternalPullUp);
-            select = new PushButton(Device, Device.Pins.D04, ResistorMode.InternalPullUp);
+            next = new PushButton(Device.Pins.D03, ResistorMode.InternalPullUp);
+            back = new PushButton(Device.Pins.D02, ResistorMode.InternalPullUp);
+            select = new PushButton(Device.Pins.D04, ResistorMode.InternalPullUp);
             select.LongClickedThreshold = new TimeSpan(0, 0, 1);
 
             next.Clicked += Next_Clicked;
@@ -141,7 +150,7 @@ namespace Transpiration
 
             Console.WriteLine("Initialize piezo");
 
-            buzzer = new PiezoSpeaker(Device, Device.Pins.D13);
+            buzzer = new PiezoSpeaker(Device.Pins.D13);
         }
 
         private void Select_LongClicked(object sender, EventArgs e)
@@ -208,6 +217,7 @@ namespace Transpiration
 
             sw.Restart();
 
+            /*
             ushort col = Color.MediumTurquoise.Color16bppRgb565;
 
             for (int i = 0; i < 240; i++)
@@ -216,7 +226,7 @@ namespace Transpiration
                 {
                     display.DrawPixel(i, j, col);
                 }
-            }
+            }*/
 
             gl.Show();
 
@@ -248,7 +258,7 @@ namespace Transpiration
             gl.DrawRectangle(0, 0, 240, y, Color.White, true);
             gl.DrawRectangle(0, y + decoder.Height, 240, 240 - y - decoder.Height, Color.White, true);
 
-            display.DrawBuffer(x, y, jpgImage);
+            gl.DrawBuffer(x, y, jpgImage);
 
             sw.Stop();
 

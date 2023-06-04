@@ -26,12 +26,12 @@ public partial class IntervalTimer : IMode
 
         gl.CurrentFont = fontClock;
 
-        gl.DrawText(gl.Width + 1, 0, GetActiveTime(seconds), alignment: TextAlignment.Right);
-        gl.DrawText(gl.Width + 1, 8, GetRestTime(seconds), alignment: TextAlignment.Right);
+        gl.DrawText(gl.Width + 1, 0, GetActiveTime(seconds), alignmentH: HorizontalAlignment.Right);
+        gl.DrawText(gl.Width + 1, 8, GetRestTime(seconds), alignmentH: HorizontalAlignment.Right);
 
         gl.CurrentFont = fontDate;
         gl.DrawText(0, 18, $"{GetInterval(seconds)}");
-        gl.DrawText(gl.Width + 1, 18, GetTotalTime(seconds), alignment: TextAlignment.Right);
+        gl.DrawText(gl.Width + 1, 18, GetTotalTime(seconds), alignmentH: HorizontalAlignment.Right);
 
         gl.Show();
     }

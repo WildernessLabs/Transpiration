@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Meadow;
+﻿using Meadow;
 using Meadow.Devices;
 using Meadow.Foundation.Audio;
 using Meadow.Foundation.Displays;
@@ -8,11 +6,13 @@ using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Hardware;
+using System;
+using System.Threading.Tasks;
 using Transpiration.Services;
 
 namespace Transpiration;
 
-public class MeadowApp : App<F7FeatherV1, MeadowApp>
+public class MeadowApp : App<F7FeatherV1>
 {
     Max7219 display;
     MicroGraphics gl;
@@ -27,8 +27,10 @@ public class MeadowApp : App<F7FeatherV1, MeadowApp>
 
     public MeadowApp()
     {
-        Initialize();
+    }
 
+    public override async Task Run()
+    {
         //draw init text
         gl.Clear();
         gl.CurrentFont = new Font4x6();
@@ -45,7 +47,7 @@ public class MeadowApp : App<F7FeatherV1, MeadowApp>
         transpiration.WorkoutInterval = 240;
         transpiration.RestInterval = 30;
 
-            _ = UpdateClock();
+        _ = UpdateClock();
 
         bleService = new BLEService();
         bleService.Initialize(Device);
@@ -72,27 +74,35 @@ public class MeadowApp : App<F7FeatherV1, MeadowApp>
 
     async Task UpdateClock()
     {
-        var result = await Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
+        var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
+
+        try
+        {
+            Resolver.Log.Info($"Connecting to WiFi Network {Secrets.WIFI_NAME}");
+            await wifi.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD, TimeSpan.FromSeconds(45));
+        }
+        catch (Exception ex)
+        {
+            Resolver.Log.Error($"Failed to Connect: {ex.Message}");
+        }
 
         var today = await ClockService.GetTime();
 
-        Device.SetClock(today.Subtract(new TimeSpan(7, 0, 0)));
+        Device.PlatformOS.SetClock(today.Subtract(new TimeSpan(7, 0, 0)));
     }
 
-    void Initialize()
+    public override async Task Initialize()
     {
         //set a reasonable default date
-        MeadowApp.Device.SetClock(new DateTime(2021, 12, 1));
+        MeadowApp.Device.PlatformOS.SetClock(new DateTime(2021, 12, 1));
 
         Console.WriteLine("Initalize display driver");
 
-        display = new Max7219(Device,
+        display = new Max7219(
                 Device.CreateSpiBus(),
                 Device.Pins.D00,
                 4, 3,
                 Max7219.Max7219Mode.Display);
-
-        display.IgnoreOutOfBoundsPixels = true;
 
         display.SetBrightness(0);
         display.SetBrightness(6, 0);
@@ -109,8 +119,6 @@ public class MeadowApp : App<F7FeatherV1, MeadowApp>
 
         gl.Show();
 
-        display.IgnoreOutOfBoundsPixels = true;
-
         Console.WriteLine("Initialize temp sensor");
 
         //Init temp sensor
@@ -125,11 +133,11 @@ public class MeadowApp : App<F7FeatherV1, MeadowApp>
 
         Console.WriteLine("Initialize buttons");
 
-        next = new PushButton(Device, Device.Pins.D13, ResistorMode.InternalPullDown);
-        back = new PushButton(Device, Device.Pins.D11, ResistorMode.InternalPullDown);
-        select = new PushButton(Device, Device.Pins.D12, ResistorMode.InternalPullDown);
-        menu = new PushButton(Device, Device.Pins.D14, ResistorMode.InternalPullDown);
-            
+        next = new PushButton(Device.Pins.D13, ResistorMode.InternalPullDown);
+        back = new PushButton(Device.Pins.D11, ResistorMode.InternalPullDown);
+        select = new PushButton(Device.Pins.D12, ResistorMode.InternalPullDown);
+        menu = new PushButton(Device.Pins.D14, ResistorMode.InternalPullDown);
+
         next.Clicked += Next_Clicked;
         back.Clicked += Back_Clicked;
         select.Clicked += Select_Clicked;
@@ -137,7 +145,7 @@ public class MeadowApp : App<F7FeatherV1, MeadowApp>
 
         Console.WriteLine("Initialize piezo");
 
-        buzzer = new PiezoSpeaker(Device, Device.Pins.D10);
+        buzzer = new PiezoSpeaker(Device.Pins.D10);
     }
 
     private void MenuClicked(object sender, EventArgs e)

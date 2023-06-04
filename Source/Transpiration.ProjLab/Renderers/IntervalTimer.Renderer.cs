@@ -18,19 +18,19 @@ namespace Transpiration
             gl.DrawText(gl.Width, 20, GetActiveTime(seconds),
                 color: Color.LawnGreen,
                 scaleFactor: ScaleFactor.X3,
-                alignment: TextAlignment.Right);
+                alignmentH: HorizontalAlignment.Right);
 
             gl.DrawText(0, 80, "Rest:", color: Color.White);
             gl.DrawText(gl.Width, 100, GetRestTime(seconds),
                 color: Color.Red,
                 scaleFactor: ScaleFactor.X3,
-                alignment: TextAlignment.Right);
+                alignmentH: HorizontalAlignment.Right);
 
             gl.DrawText(0, 160, $"Total (Round {GetInterval(seconds)}):", color: Color.White);
             gl.DrawText(gl.Width, 180, GetTotalTime(seconds),
                 color: Color.RoyalBlue,
                 scaleFactor: ScaleFactor.X3,
-                alignment: TextAlignment.Right);
+                alignmentH: HorizontalAlignment.Right);
         }
     }
 }

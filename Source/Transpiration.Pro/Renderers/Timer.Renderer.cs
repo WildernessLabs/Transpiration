@@ -17,20 +17,20 @@ public partial class Timer : IMode
         //draw current timer time
         if (timerState == StopWatchState.Start)
         {
-            gl.DrawText(33, 1, GeTimerTime((DateTime.Now - timerStart).Ticks + timerOffset), alignment: TextAlignment.Right);
+            gl.DrawText(33, 1, GeTimerTime((DateTime.Now - timerStart).Ticks + timerOffset), alignmentH: HorizontalAlignment.Right);
         }
         else
         {
-            gl.DrawText(33, 1, GeTimerTime(timerOffset), alignment: TextAlignment.Right);
+            gl.DrawText(33, 1, GeTimerTime(timerOffset), alignmentH: HorizontalAlignment.Right);
         }
 
         //draw time
-        gl.DrawText(33, 9, $"{DateTime.Now.ToString("h:mm:tt")}", alignment: TextAlignment.Right);
+        gl.DrawText(33, 9, $"{DateTime.Now.ToString("h:mm:tt")}", alignmentH: HorizontalAlignment.Right);
 
         //draw temperature
         try
         {
-            gl.DrawText(33, 18, $"{temperatureSensor?.Temperature.Value.Celsius.ToString("0.0")} C", alignment: TextAlignment.Right);
+            gl.DrawText(33, 18, $"{temperatureSensor?.Temperature.Value.Celsius.ToString("0.0")} C", alignmentH: HorizontalAlignment.Right);
         }
         catch
         {

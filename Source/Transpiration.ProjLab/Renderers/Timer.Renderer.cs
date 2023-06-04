@@ -25,7 +25,7 @@ public partial class Timer : IMode
         }
 
         gl.DrawText(120, 60, text,
-                alignment: TextAlignment.Center,
+                alignmentH: HorizontalAlignment.Center,
                 scaleFactor: ScaleFactor.X3);
 
         gl.PenColor = Color.Orange;
@@ -33,12 +33,12 @@ public partial class Timer : IMode
         text = DateTime.Now.ToString("h:mmtt", CultureInfo.InvariantCulture);
         gl.DrawText(240, 160, text,
             scaleFactor: ScaleFactor.X2,
-            alignment: TextAlignment.Right);
+            alignmentH: HorizontalAlignment.Right);
 
         text = $"{temperatureSensor?.Temperature.Value.Celsius.ToString("0.0")}°C";
 
         gl.DrawText(240, 200, text,
             scaleFactor: ScaleFactor.X2,
-            alignment: TextAlignment.Right);
+            alignmentH: HorizontalAlignment.Right);
     }
 }

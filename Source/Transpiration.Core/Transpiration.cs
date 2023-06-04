@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Meadow.Foundation.Audio;
+﻿using Meadow.Foundation.Audio;
 using Meadow.Foundation.Displays.TextDisplayMenu;
 using Meadow.Foundation.Graphics;
 using Meadow.Peripherals.Sensors;
+using System;
+using System.Threading.Tasks;
 
 namespace Transpiration;
 
@@ -84,7 +83,7 @@ public class Transpiration
     //for BLE ... ToDo
     public void SetMode(TranspirationState mode)
     {
-        switch(mode)
+        switch (mode)
         {
             case TranspirationState.Clock:
                 break;
@@ -115,14 +114,14 @@ public class Transpiration
                 {
                     var now = DateTime.Now;
                     var time = (TimeSpan)e.Value;
-                    MeadowApp.Device.SetClock(new DateTime(now.Year, now.Month, now.Day, time.Hours, time.Minutes, time.Seconds));
+                    MeadowApp.Device.PlatformOS.SetClock(new DateTime(now.Year, now.Month, now.Day, time.Hours, time.Minutes, time.Seconds));
                 }
                 break;
             case SetDate:
                 {
                     var now = DateTime.Now;
                     var date = (DateTime)e.Value;
-                    MeadowApp.Device.SetClock(new DateTime(date.Year, date.Month, date.Day, now.Hour, now.Minute, now.Second));
+                    MeadowApp.Device.PlatformOS.SetClock(new DateTime(date.Year, date.Month, date.Day, now.Hour, now.Minute, now.Second));
                 }
                 break;
         }
@@ -170,7 +169,7 @@ public class Transpiration
         gl.Clear();
         mode.Update(gl, temperatureSensor);
         gl.Show();
-        
+
         await Task.Delay(mode.RenderDelay);
     }
 
@@ -190,7 +189,7 @@ public class Transpiration
 
     public async Task PlayTone(int frequency, int duration)
     {
-        _ = buzzer.PlayTone(frequency);
+        _ = buzzer.PlayTone(new Meadow.Units.Frequency(frequency, Meadow.Units.Frequency.UnitType.Hertz));
         await Task.Delay(duration);
         buzzer.StopTone();
     }
@@ -213,7 +212,7 @@ public class Transpiration
         {
             intervalTimer.Back();
         }
-        else if(state == TranspirationState.Timer)
+        else if (state == TranspirationState.Timer)
         {
             timer.Back();
         }
