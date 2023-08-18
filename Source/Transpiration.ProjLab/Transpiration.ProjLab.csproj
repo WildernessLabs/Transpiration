@@ -17,13 +17,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.F7" Version="0.*" />
-    <PackageReference Include="Meadow.Foundation" Version="0.*" />
-    <PackageReference Include="Meadow.Foundation.Displays.TextDisplayMenu" Version="0.*" />
-    <PackageReference Include="Meadow.Foundation.Displays.TftSpi" Version="0.*" />
-    <PackageReference Include="Meadow.Foundation.Sensors.Atmospheric.Bme68x" Version="0.*" />
-    <PackageReference Include="SimpleJpegDecoder" Version="0.4.0" />
-    <PackageReference Include="SimpleJsonSerializer" Version="0.0.2" />
+    <PackageReference Include="Meadow.F7" Version="*" />
+    <PackageReference Include="Meadow.Foundation" Version="*" />
+    <PackageReference Include="Meadow.Foundation.Displays.TextDisplayMenu" Version="*" />
+    <PackageReference Include="Meadow.Foundation.Displays.TftSpi" Version="*" />
+    <PackageReference Include="Meadow.Foundation.Sensors.Atmospheric.Bme68x" Version="*" />
+    <PackageReference Include="SimpleJpegDecoder" Version="*" />
+    <PackageReference Include="SimpleJsonSerializer" Version="*" />
   </ItemGroup>
   <Import Project="..\Transpiration.Core\Transpiration.Core.projitems" Label="Shared" />
 </Project>

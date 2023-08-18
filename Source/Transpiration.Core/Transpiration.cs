@@ -1,5 +1,5 @@
 ﻿using Meadow.Foundation.Audio;
-using Meadow.Foundation.Displays.TextDisplayMenu;
+using Meadow.Foundation.Displays.UI;
 using Meadow.Foundation.Graphics;
 using Meadow.Peripherals.Sensors;
 using System;
@@ -27,7 +27,7 @@ public class Transpiration
     PiezoSpeaker buzzer;
     ITemperatureSensor temperatureSensor;
     MicroGraphics gl;
-    Menu menu;
+    TextDisplayMenu menu;
 
     readonly Clock clock = new();
     readonly IntervalTimer intervalTimer = new();
@@ -73,7 +73,7 @@ public class Transpiration
                 })
             };
 
-        menu = new Menu(gl, menuItems);
+        menu = new TextDisplayMenu(gl, menuItems);
 
         menu.ValueChanged += Menu_ValueChanged;
 
